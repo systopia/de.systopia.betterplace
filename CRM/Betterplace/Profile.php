@@ -117,6 +117,18 @@ class CRM_Betterplace_Profile {
   }
 
   /**
+   * get the profile with the given name
+   */
+  public static function getProfile($name) {
+    $profiles = self::getProfiles();
+    if (isset($profiles[$name])) {
+      return $profiles[$name];
+    } else {
+      return NULL;
+    }
+  }
+
+  /**
    * Get the (raw) list of all profiles
    */
   public static function getProfiles() {
