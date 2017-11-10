@@ -23,12 +23,20 @@ use CRM_Betterplace_ExtensionUtil as E;
  */
 class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
 
+  /**
+   * @var CRM_Betterplace_Profile $profile
+   *
+   * The profile object the form is acting on.
+   */
+  protected $profile;
+
+  /**
+   * Builds the form structure.
+   */
   public function buildQuickForm() {
 
-    // get the profile
-    $profile_name = CRM_Utils_Request::retrieve('name', 'String', $this);
-    // TODO: if not exists -> create?
-    if (empty($profile_name)) {
+    // Get the profile the form is acting on.
+    if (!$profile_name = CRM_Utils_Request::retrieve('name', 'String', $this)) {
       $profile_name = 'default';
     }
     $this->profile = CRM_Betterplace_Profile::getProfile($profile_name);
@@ -55,7 +63,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
       'campaign_id', // field name
       E::ts('Campaign'), // field label
       $this->getCampaigns(), // list of options
-      TRUE // is required
+      FALSE // is not required
     );
 
     $this->add(
@@ -87,7 +95,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
       'groups', // field name
       E::ts('Sign up for groups'), // field label
       $this->getGroups(), // list of options
-      TRUE, // is required
+      FALSE, // is not required
       array('class' => 'crm-select2 huge', 'multiple' => 'multiple')
     );
 
@@ -100,30 +108,42 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
       ),
     ));
 
-    // export form elements
+    // Export form elements.
     parent::buildQuickForm();
   }
 
 
 
   /**
-   * set the default (=current) values in the form
+   * Set the default values (i.e. the profile's current data) in the form.
    */
   public function setDefaultValues() {
-    // TODO: take from $this->profile
+    $defaults = parent::setDefaultValues();
+    foreach ($this->profile->getData() as $element_name => $value) {
+      $defaults[$element_name] = $value;
+    }
+    return $defaults;
   }
 
 
+  /**
+   * Store the values submitted with the form in the profile.
+   */
   public function postProcess() {
     $values = $this->exportValues();
-    // TODO STORE
-    error_log("VALUES " . json_encode($values) );
+    foreach ($this->profile->getData() as $element_name => $value) {
+      if (isset($values[$element_name])) {
+        $this->profile->setAttribute($element_name, $values[$element_name]);
+      }
+    }
+    $this->profile->storeProfiles();
     parent::postProcess();
   }
 
 
   /**
-   * TODO
+   * Retrieve financial types present within the system as options for select
+   * form elements.
    */
   public function getFinancialTypes() {
     $financial_types = array();
@@ -139,7 +159,8 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   }
 
   /**
-   * TODO
+   * Retrieve campaigns present within the system as options for select form
+   * elements.
    */
   public function getCampaigns() {
     $campaigns = array('' => E::ts("no campaign"));
@@ -155,34 +176,33 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   }
 
   /**
-   * TODO
+   * Retrieve payment instruments present within the system as options for
+   * select form elements.
    */
   public function getPaymentInstruments() {
-    // TODO: cache
-    $pis = array();
+    // TODO: Cache, as these are retrieved for multiple select form elements.
+    $payment_instruments = array();
     $query = civicrm_api3('OptionValue', 'get', array(
       'option_group_id' => 'payment_instrument',
       'TODO_is_active'  => 1,
       'option.limit'    => 0,
       'return'          => 'value,label'
     ));
-    foreach ($query['values'] as $campaign) {
-      $pis[$campaign['value']] = $campaign['label'];
+    foreach ($query['values'] as $payment_instrument) {
+      $payment_instruments[$payment_instrument['value']] = $payment_instrument['label'];
     }
-    return $pis;
-
-
-    return array(1 => 'Donation');
+    return $payment_instruments;
   }
 
   /**
-   * TODO
+   * Retrieve active groups used as mailing lists within the system as options
+   * for select form elements.
    */
   public function getGroups() {
     $groups = array();
     $query = civicrm_api3('Group', 'get', array(
-      'TOOD_is_active' => 1,
-      'TOOD_type_mail' => 1,
+      'is_active' => 1,
+      'group_type' => CRM_Betterplace_Submission::GROUP_TYPE_MAILING_LIST,
       'option.limit'   => 0,
       'return'         => 'id,name'
     ));

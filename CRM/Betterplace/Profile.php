@@ -22,12 +22,35 @@ use CRM_Betterplace_ExtensionUtil as E;
  */
 class CRM_Betterplace_Profile {
 
-  /** caches the profile objects */
+  /**
+   * @var CRM_Betterplace_Profile[] $_profiles
+   *
+   * Caches the profile objects.
+   */
   protected static $_profiles = NULL;
 
+  /**
+   * @var string $name
+   *
+   * The name of the profile.
+   */
   protected $name = NULL;
+
+  /**
+   * @var array $data
+   *
+   * The properties of the profile.
+   */
   protected $data = NULL;
 
+  /**
+   * CRM_Betterplace_Profile constructor.
+   *
+   * @param string $name
+   *   The name of the profile.
+   * @param array $data
+   *   The properties of the profile
+   */
   public function __construct($name, $data) {
     $this->name = $name;
     $this->data = $data;
@@ -35,7 +58,11 @@ class CRM_Betterplace_Profile {
 
 
   /**
-   * TODO
+   * Checks whether the profile's selector matches the given form ID.
+   *
+   * @param string | int $form_id
+   *
+   * @return bool
    */
   public function matches($form_id) {
     $selector = $this->getAttribute('selector');
@@ -43,8 +70,16 @@ class CRM_Betterplace_Profile {
     return in_array($form_id, $form_ids);
   }
 
+  public function getData() {
+    return $this->data;
+  }
+
   /**
-   * TODO
+   * Retrieves an attribute of the profile.
+   *
+   * @param string $attribute_name
+   *
+   * @return mixed | NULL
    */
   public function getAttribute($attribute_name) {
     if (isset($this->data[$attribute_name])) {
@@ -55,7 +90,10 @@ class CRM_Betterplace_Profile {
   }
 
   /**
-   * TODO
+   * Sets an attribute of the profile.
+   *
+   * @param string $attribute_name
+   * @param mixed $value
    */
   public function setAttribute($attribute_name, $value) {
     // TODO: check if attribute wanted, value acceptable
@@ -64,8 +102,11 @@ class CRM_Betterplace_Profile {
 
 
   /**
-   * Verify if given profile is valid, (also wrt the other profiles)
+   * Verifies whether the profile is valid (i.e. consistent and not colliding
+   * with other profiles).
+   *
    * @throws Exception
+   *   When the profile could not be successfully validated.
    */
   public function verifyProfile() {
     // TODO: check
@@ -74,7 +115,7 @@ class CRM_Betterplace_Profile {
   }
 
   /**
-   * Verify if given profile is valid, (also wrt the other profiles)
+   * Persists the profile within the CiviCRM settings.
    */
   public function saveProfile() {
     $this->verifyProfile();
@@ -85,7 +126,9 @@ class CRM_Betterplace_Profile {
 
 
   /**
-   * this is the "factory default" profile
+   * Returns the default profile with "factory" defaults.
+   *
+   * @return CRM_Betterplace_Profile
    */
   public static function createDefaultProfile() {
     return new CRM_Betterplace_Profile('default', array(
@@ -100,9 +143,13 @@ class CRM_Betterplace_Profile {
   }
 
   /**
-   * retrieves the rigth profile for the given
-   *  form ID. Returns the default profile if none
-   *  found.
+   * Retrieves the profile that matches the given form ID, i.e. the profile
+   * which is responsible for processing the form's data.
+   * Returns the default profile if no match was found.
+   *
+   * @param $form_id
+   *
+   * @return CRM_Betterplace_Profile
    */
   public static function getProfileForForm($form_id) {
     $profiles = self::getProfiles();
@@ -112,12 +159,16 @@ class CRM_Betterplace_Profile {
       }
     }
 
-    // no profile found?
+    // No profile matched, return default profile.
     return $profiles['default'];
   }
 
   /**
-   * get the profile with the given name
+   * Retrieves the profil with the given name.
+   *
+   * @param $name
+   *
+   * @return CRM_Betterplace_Profile | NULL
    */
   public static function getProfile($name) {
     $profiles = self::getProfiles();
@@ -129,7 +180,10 @@ class CRM_Betterplace_Profile {
   }
 
   /**
-   * Get the (raw) list of all profiles
+   * Retrieves the list of all profiles persisted within the current CiviCRM
+   * settings, including the default profile.
+   *
+   * @return CRM_Betterplace_Profile[]
    */
   public static function getProfiles() {
     if (self::$_profiles === NULL) {
@@ -140,7 +194,7 @@ class CRM_Betterplace_Profile {
       }
     }
 
-    // make sure the default profile is there
+    // Include the default profile if it was not overridden within the settings.
     if (!isset(self::$_profiles['default'])) {
       self::$_profiles['default'] = self::createDefaultProfile();
       self::storeProfiles();
@@ -151,13 +205,13 @@ class CRM_Betterplace_Profile {
 
 
   /**
-   * Set the (raw) list of all profiles
+   * Persists the list of profiles into the CiviCRM settings.
    */
   public static function storeProfiles() {
     $profile_data = array();
     foreach (self::$_profiles as $profile_name => $profile) {
-      $profile_data[$profile_name] = $profile->profile;
+      $profile_data[$profile_name] = $profile->data;
     }
-    CRM_Core_BAO_Setting::setItem($profile_data, 'de.systopia.betterplace', 'betterplace_profiles');
+    CRM_Core_BAO_Setting::setItem((object) $profile_data, 'de.systopia.betterplace', 'betterplace_profiles');
   }
 }
