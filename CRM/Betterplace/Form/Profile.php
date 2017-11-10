@@ -41,7 +41,18 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     }
     $this->profile = CRM_Betterplace_Profile::getProfile($profile_name);
 
+    CRM_Utils_System::setTitle(E::ts('Edit Betterplace API profile <em>%1</em>', array(1 => $this->profile->getName())));
+
     // add form elements
+    $is_default = $this->profile->getName() == 'default';
+    $this->add(
+      ($is_default ? 'static' : 'text'),
+      'name',
+      E::ts('Profile name'),
+      array(),
+      !$is_default
+    );
+
     $this->add(
       'text', // field type
       'selector', // field name
@@ -119,6 +130,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
    */
   public function setDefaultValues() {
     $defaults = parent::setDefaultValues();
+    $defaults['name'] = $this->profile->getName();
     foreach ($this->profile->getData() as $element_name => $value) {
       $defaults[$element_name] = $value;
     }
@@ -200,6 +212,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
    */
   public function getGroups() {
     $groups = array();
+    // TODO: This does not return groups with more than one group_type (CiviCRM bug?).
     $query = civicrm_api3('Group', 'get', array(
       'is_active' => 1,
       'group_type' => CRM_Betterplace_Submission::GROUP_TYPE_MAILING_LIST,
@@ -211,6 +224,5 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     }
     return $groups;
   }
-
 
 }

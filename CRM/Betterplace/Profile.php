@@ -74,6 +74,14 @@ class CRM_Betterplace_Profile {
     return $this->data;
   }
 
+  public function getName() {
+    return $this->name;
+  }
+
+  public function setName($name) {
+    $this->name = $name;
+  }
+
   /**
    * Retrieves an attribute of the profile.
    *
@@ -188,9 +196,10 @@ class CRM_Betterplace_Profile {
   public static function getProfiles() {
     if (self::$_profiles === NULL) {
       self::$_profiles = array();
-      $profiles_data = CRM_Core_BAO_Setting::getItem('de.systopia.betterplace', 'betterplace_profiles');
-      foreach ($profiles_data as $profile_name => $profile_data) {
-        self::$_profiles[$profile_name] = new CRM_Betterplace_Profile($profile_name, $profile_data);
+      if ($profiles_data = CRM_Core_BAO_Setting::getItem('de.systopia.betterplace', 'betterplace_profiles')) {
+        foreach ($profiles_data as $profile_name => $profile_data) {
+          self::$_profiles[$profile_name] = new CRM_Betterplace_Profile($profile_name, $profile_data);
+        }
       }
     }
 

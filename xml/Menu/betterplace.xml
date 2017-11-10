@@ -6,4 +6,13 @@
     <title>Betterplace Profile</title>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/admin/settings/betterplace</path>
+    <page_callback>CRM_Betterplace_Page_Settings</page_callback>
+    <title>Betterplace API Settings</title>
+    <access_arguments>access CiviCRM</access_arguments>
+    <desc>Configure the settings of the Betterplace API extension</desc>
+    <adminGroup>System Settings</adminGroup>
+    <icon>admin/option.png</icon>
+  </item>
 </menu>
