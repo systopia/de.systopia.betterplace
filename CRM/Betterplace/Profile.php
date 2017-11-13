@@ -17,29 +17,26 @@
 use CRM_Betterplace_ExtensionUtil as E;
 
 /**
- * Profiles define how incoming submissions from
- *  a donation page are processed in CiviCRM
+ * Profiles define how incoming submissions from the BPDonation API are
+ * processed in CiviCRM.
  */
 class CRM_Betterplace_Profile {
 
   /**
    * @var CRM_Betterplace_Profile[] $_profiles
-   *
-   * Caches the profile objects.
+   *   Caches the profile objects.
    */
   protected static $_profiles = NULL;
 
   /**
    * @var string $name
-   *
-   * The name of the profile.
+   *   The name of the profile.
    */
   protected $name = NULL;
 
   /**
    * @var array $data
-   *
-   * The properties of the profile.
+   *   The properties of the profile.
    */
   protected $data = NULL;
 
@@ -70,14 +67,29 @@ class CRM_Betterplace_Profile {
     return in_array($form_id, $form_ids);
   }
 
+  /**
+   * Retrieves all data attributes of the profile.
+   *
+   * @return array
+   */
   public function getData() {
     return $this->data;
   }
 
+  /**
+   * Retrieves the profile name.
+   *
+   * @return string
+   */
   public function getName() {
     return $this->name;
   }
 
+  /**
+   * Sets the profile name.
+   *
+   * @param $name
+   */
   public function setName($name) {
     $this->name = $name;
   }
@@ -92,7 +104,8 @@ class CRM_Betterplace_Profile {
   public function getAttribute($attribute_name) {
     if (isset($this->data[$attribute_name])) {
       return $this->data[$attribute_name];
-    } else {
+    }
+    else {
       return NULL;
     }
   }
@@ -102,12 +115,17 @@ class CRM_Betterplace_Profile {
    *
    * @param string $attribute_name
    * @param mixed $value
+   *
+   * @throws \Exception
+   *   When the attribute name is not known.
    */
   public function setAttribute($attribute_name, $value) {
-    // TODO: check if attribute wanted, value acceptable
+    if (!in_array($attribute_name, self::allowedAttributes())) {
+      throw new Exception("Unknown attribute {$attribute_name}.");
+    }
+    // TODO: Check if value is acceptable.
     $this->data[$attribute_name] = $value;
   }
-
 
   /**
    * Verifies whether the profile is valid (i.e. consistent and not colliding
@@ -130,8 +148,22 @@ class CRM_Betterplace_Profile {
     self::storeProfiles();
   }
 
-
-
+  /**
+   * Returns an array of attributes allowed for a profile.
+   *
+   * @return array
+   */
+  public static function allowedAttributes() {
+    return array(
+      'selector',
+      'financial_type_id',
+      'campaign_id',
+      'pi_creditcard',
+      'pi_sepa',
+      'pi_paypal',
+      'groups',
+    );
+  }
 
   /**
    * Returns the default profile with "factory" defaults.
@@ -182,7 +214,8 @@ class CRM_Betterplace_Profile {
     $profiles = self::getProfiles();
     if (isset($profiles[$name])) {
       return $profiles[$name];
-    } else {
+    }
+    else {
       return NULL;
     }
   }
