@@ -45,3 +45,4 @@ cv en betterplace
 ## Known Issues
 
 (* FIXME *)
+* ATM only regular donations are supported, recurring donations are still TODO
