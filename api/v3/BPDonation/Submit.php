@@ -69,6 +69,9 @@ function civicrm_api3_b_p_donation_submit($params) {
   if (!empty($params['donation_id'])) {
     $contribution_data['trxn_id'] = $params['donation_id'];
   }
+  if (isset($params['time'])) {
+    $contribution_data['receive_date'] = date('YmdH:i:s', $params['time']);
+  }
   // Add campaign relationship if defined in the profile.
   if (!empty($campaign_id = $profile->getAttribute('campaign_id'))) {
     $contribution_data['campaign_id'] = $campaign_id;
