@@ -2,7 +2,10 @@
 
 ![Screenshot](/images/screenshot.png)
 
-(*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
+Extension to connect to the betterplace.org Direkt donation page via the webhook api.
+
+* [About betterplace.org Direkt](https://www.spendenformular-direkt.org/)
+* [Webhook api documentation](https://betterplace.github.io/xform/webhooks)
 
 The extension is licensed under [AGPL-3.0](LICENSE.txt).
 
@@ -42,3 +45,4 @@ cv en betterplace
 ## Known Issues
 
 (* FIXME *)
+* ATM only regular donations are supported, recurring donations are still TODO

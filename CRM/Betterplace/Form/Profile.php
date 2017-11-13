@@ -46,10 +46,10 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     }
     if (!$this->profile = CRM_Betterplace_Profile::getProfile($profile_name)) {
       $this->profile = new CRM_Betterplace_Profile(NULL, array());
-      CRM_Utils_System::setTitle(E::ts('New Betterplace API profile'));
+      CRM_Utils_System::setTitle(E::ts('New betterplace.org Direkt API profile'));
     }
     else {
-      CRM_Utils_System::setTitle(E::ts('Edit Betterplace API profile <em>%1</em>', array(1 => $this->profile->getName())));
+      CRM_Utils_System::setTitle(E::ts('Edit betterplace.org Direkt API profile <em>%1</em>', array(1 => $this->profile->getName())));
     }
 
     // add form elements

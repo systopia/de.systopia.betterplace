@@ -98,10 +98,10 @@ function civicrm_api3_b_p_donation_submit($params) {
 function _civicrm_api3_b_p_donation_submit_spec(&$params) {
   $params['form_id'] = array(
     'name'         => 'form_id',
-    'title'        => 'Betterplace form ID',
+    'title'        => 'betterplace.org Direkt form ID',
     'type'         => CRM_Utils_Type::T_STRING,
     'api.required' => 1,
-    'description'  => 'ID of the Betterplace form.',
+    'description'  => 'ID of the betterplace.org Direkt form.',
   );
   $params['first_name'] = array(
     'name'         => 'first_name',
@@ -199,7 +199,7 @@ function _civicrm_api3_b_p_donation_submit_spec(&$params) {
     'title'        => 'Newsletter',
     'type'         => CRM_Utils_Type::T_BOOLEAN,
     'api.required' => 0,
-    'description'  => 'Whether to subbscribe the contact to the newsletter group defined in the profile.',
+    'description'  => 'Whether to subscribe the contact to the newsletter group defined in the profile.',
   );
   $params['webhook_id'] = array(
     'name'         => 'webhook_id',
