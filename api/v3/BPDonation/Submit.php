@@ -167,8 +167,8 @@ function _civicrm_api3_b_p_donation_submit_spec(&$params) {
     'description'  => 'The donation ID.',
   );
   $params['time'] = array(
-    'name'         => 'time',
-    'title'        => 'Time',
+    'name'         => 'confirmed_at',
+    'title'        => 'Confirmed at',
     'type'         => CRM_Utils_Type::T_INT,
     'api.required' => 0,
     'description'  => 'A timestamp when the donation was issued.',
