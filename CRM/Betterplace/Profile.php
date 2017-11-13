@@ -50,7 +50,11 @@ class CRM_Betterplace_Profile {
    */
   public function __construct($name, $data) {
     $this->name = $name;
-    $this->data = $data;
+    $allowed_attributes = self::allowedAttributes();
+    $this->data = $data + array_combine(
+        $allowed_attributes,
+        array_fill(0, count($allowed_attributes), NULL)
+      );
   }
 
 
@@ -144,6 +148,7 @@ class CRM_Betterplace_Profile {
    * Persists the profile within the CiviCRM settings.
    */
   public function saveProfile() {
+    self::$_profiles[$this->getName()] = $this;
     $this->verifyProfile();
     self::storeProfiles();
   }

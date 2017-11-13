@@ -37,11 +37,20 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
 
     // Get the profile the form is acting on.
     if (!$profile_name = CRM_Utils_Request::retrieve('name', 'String', $this)) {
-      $profile_name = 'default';
+      if (CRM_Utils_Request::retrieve('new', 'Boolean', $this)) {
+        $profile_name = NULL;
+      }
+      else {
+        $profile_name = 'default';
+      }
     }
-    $this->profile = CRM_Betterplace_Profile::getProfile($profile_name);
-
-    CRM_Utils_System::setTitle(E::ts('Edit Betterplace API profile <em>%1</em>', array(1 => $this->profile->getName())));
+    if (!$this->profile = CRM_Betterplace_Profile::getProfile($profile_name)) {
+      $this->profile = new CRM_Betterplace_Profile(NULL, array());
+      CRM_Utils_System::setTitle(E::ts('New Betterplace API profile'));
+    }
+    else {
+      CRM_Utils_System::setTitle(E::ts('Edit Betterplace API profile <em>%1</em>', array(1 => $this->profile->getName())));
+    }
 
     // add form elements
     $is_default = $this->profile->getName() == 'default';
@@ -143,12 +152,13 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
    */
   public function postProcess() {
     $values = $this->exportValues();
+    $this->profile->setName($values['name']);
     foreach ($this->profile->getData() as $element_name => $value) {
       if (isset($values[$element_name])) {
         $this->profile->setAttribute($element_name, $values[$element_name]);
       }
     }
-    $this->profile->storeProfiles();
+    $this->profile->saveProfile();
     parent::postProcess();
   }
 
