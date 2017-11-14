@@ -135,7 +135,6 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
       array('class' => 'crm-select2 huge', 'multiple' => 'multiple')
     );
 
-
     $this->addButtons(array(
       array(
         'type' => 'submit',
@@ -195,7 +194,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   }
 
   /**
-   * Retrieve financial types present within the system as options for select
+   * Retrieves financial types present within the system as options for select
    * form elements.
    */
   public function getFinancialTypes() {
@@ -212,7 +211,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   }
 
   /**
-   * Retrieve campaigns present within the system as options for select form
+   * Retrieves campaigns present within the system as options for select form
    * elements.
    */
   public function getCampaigns() {

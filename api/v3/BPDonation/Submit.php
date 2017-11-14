@@ -65,20 +65,22 @@ function civicrm_api3_b_p_donation_submit($params) {
     'contact_id' => $contact_id,
     'payment_instrument_id' => $payment_instrument_id,
     'total_amount' => $params['amount_in_cents'] / 100,
+    'contribution_status_id' => 'Completed',
   );
   if (!empty($params['donation_id'])) {
     $contribution_data['trxn_id'] = $params['donation_id'];
   }
   if (isset($params['time'])) {
-    $contribution_data['receive_date'] = date('YmdH:i:s', $params['time']);
+    if (!is_numeric($params['time'])) {
+      return civicrm_api3_create_error('Parameter "confirmed_at" must not be empty.');
+    }
+    $contribution_data['receive_date'] = date('YmdHis', $params['time']);
   }
   // Add campaign relationship if defined in the profile.
   if (!empty($campaign_id = $profile->getAttribute('campaign_id'))) {
     $contribution_data['campaign_id'] = $campaign_id;
   }
-  if (!$contribution = civicrm_api3('Contribution', 'create', $contribution_data)) {
-    civicrm_api3_create_error('Contribution could not be created.');
-  }
+  $contribution = civicrm_api3('Contribution', 'create', $contribution_data);
 
   // If requested, add contact to the groups defined in the profile.
   if (!empty($params['newsletter']) && !empty($groups = $profile->getAttribute('groups'))) {
