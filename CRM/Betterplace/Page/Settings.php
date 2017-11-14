@@ -22,7 +22,14 @@ class CRM_Betterplace_Page_Settings extends CRM_Core_Page {
     // Example: Set the page-title dynamically; alternatively, declare a static title in xml/Menu/*.xml
     CRM_Utils_System::setTitle(E::ts('Betterplace Settings'));
 
-    $this->assign('profiles', array_keys(CRM_Betterplace_Profile::getProfiles()));
+    $profiles = array();
+    foreach (CRM_Betterplace_Profile::getProfiles() as $profile_name => $profile) {
+      $profiles[$profile_name]['name'] = $profile_name;
+      foreach (CRM_Betterplace_Profile::allowedAttributes() as $attribute) {
+        $profiles[$profile_name][$attribute] = $profile->getAttribute($attribute);
+      }
+    }
+    $this->assign('profiles', $profiles);
 
     parent::run();
   }
