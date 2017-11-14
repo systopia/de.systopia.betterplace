@@ -31,6 +31,14 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   protected $profile;
 
   /**
+   * @var array
+   *
+   * A static cache of retrieved payment instruments found within
+   * self::getPaymentInstruments().
+   */
+  protected static $_paymentInstruments = NULL;
+
+  /**
    * Builds the form structure.
    */
   public function buildQuickForm() {
@@ -221,22 +229,23 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   }
 
   /**
-   * Retrieve payment instruments present within the system as options for
+   * Retrieves payment instruments present within the system as options for
    * select form elements.
    */
   public function getPaymentInstruments() {
-    // TODO: Cache, as these are retrieved for multiple select form elements.
-    $payment_instruments = array();
-    $query = civicrm_api3('OptionValue', 'get', array(
-      'option_group_id' => 'payment_instrument',
-      'TODO_is_active'  => 1,
-      'option.limit'    => 0,
-      'return'          => 'value,label'
-    ));
-    foreach ($query['values'] as $payment_instrument) {
-      $payment_instruments[$payment_instrument['value']] = $payment_instrument['label'];
+    if (!isset(self::$_paymentInstruments)) {
+      self::$_paymentInstruments = array();
+      $query = civicrm_api3('OptionValue', 'get', array(
+        'option_group_id' => 'payment_instrument',
+        'TODO_is_active'  => 1,
+        'option.limit'    => 0,
+        'return'          => 'value,label'
+      ));
+      foreach ($query['values'] as $payment_instrument) {
+        self::$_paymentInstruments[$payment_instrument['value']] = $payment_instrument['label'];
+      }
     }
-    return $payment_instruments;
+    return self::$_paymentInstruments;
   }
 
   /**
