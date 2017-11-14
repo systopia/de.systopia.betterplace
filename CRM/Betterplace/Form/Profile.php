@@ -240,20 +240,29 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   }
 
   /**
-   * Retrieve active groups used as mailing lists within the system as options
+   * Retrieves active groups used as mailing lists within the system as options
    * for select form elements.
    */
   public function getGroups() {
     $groups = array();
-    // TODO: This does not return groups with more than one group_type (CiviCRM bug?).
-    $query = civicrm_api3('Group', 'get', array(
-      'is_active' => 1,
-      'group_type' => CRM_Betterplace_Submission::GROUP_TYPE_MAILING_LIST,
-      'option.limit'   => 0,
-      'return'         => 'id,name'
+    $group_types = civicrm_api3('OptionValue', 'get', array(
+      'option_group_id' => 'group_type',
+      'name' => CRM_Betterplace_Submission::GROUP_TYPE_MAILING_LIST,
     ));
-    foreach ($query['values'] as $group) {
-      $groups[$group['id']] = $group['name'];
+    if ($group_types['count'] > 0) {
+      $group_type = reset($group_types['values']);
+      $query = civicrm_api3('Group', 'get', array(
+        'is_active' => 1,
+        'group_type' => array('LIKE' => '%' . CRM_Utils_Array::implodePadded($group_type['value']) . '%'),
+        'option.limit'   => 0,
+        'return'         => 'id,name'
+      ));
+      foreach ($query['values'] as $group) {
+        $groups[$group['id']] = $group['name'];
+      }
+    }
+    else {
+      $groups[''] = E::ts('No mailing lists available');
     }
     return $groups;
   }

@@ -21,7 +21,9 @@ class CRM_Betterplace_Submission {
    */
   const LOCATION_TYPE_ID_WORK = 2;
 
-  // TODO: Verify.
+  /**
+   * The option value name of the group type for mailing lists.
+   */
   const GROUP_TYPE_MAILING_LIST = 'Mailing List';
 
   /**
