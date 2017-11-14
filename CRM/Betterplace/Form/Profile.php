@@ -71,6 +71,14 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     );
 
     $this->add(
+      'select',
+      'location_type_id',
+      E::ts('Location type'),
+      $this->getLocationTypes(),
+      TRUE
+    );
+
+    $this->add(
       'select', // field type
       'financial_type_id', // field name
       E::ts('Financial Type'), // field label
@@ -162,6 +170,21 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     parent::postProcess();
   }
 
+  /**
+   * Retrieves location types present within the system as options for select
+   * form elements.
+   */
+  public function getLocationTypes() {
+    $location_types = array();
+    $query = civicrm_api3('LocationType', 'get', array(
+      'is_active' => 1,
+    ));
+    foreach ($query['values'] as $type) {
+      $location_types[$type['id']] = $type['name'];
+    }
+
+    return $location_types;
+  }
 
   /**
    * Retrieve financial types present within the system as options for select

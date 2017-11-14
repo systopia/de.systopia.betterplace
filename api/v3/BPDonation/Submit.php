@@ -44,12 +44,12 @@ function civicrm_api3_b_p_donation_submit($params) {
       return civicrm_api3_create_error('Organisation contact could not be found or created.');
     }
   }
-  $address_shared = isset($organisation_id) && CRM_Betterplace_Submission::shareWorkAddress($contact_id, $organisation_id);
+  $address_shared = isset($organisation_id) && CRM_Betterplace_Submission::shareWorkAddress($contact_id, $organisation_id, $profile->getAttribute('location_type_id'));
 
   // Address is not shared, use submitted address.
   if (!$address_shared && !empty($submitted_address)) {
     $submitted_address['contact_id'] = $contact_id;
-    $submitted_address['location_type_id'] = CRM_Betterplace_Submission::LOCATION_TYPE_ID_WORK;
+    $submitted_address['location_type_id'] = $profile->getAttribute('location_type_id');
     civicrm_api3('Address', 'create', $submitted_address);
   }
 

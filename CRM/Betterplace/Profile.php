@@ -161,6 +161,7 @@ class CRM_Betterplace_Profile {
   public static function allowedAttributes() {
     return array(
       'selector',
+      'location_type_id',
       'financial_type_id',
       'campaign_id',
       'pi_creditcard',
@@ -178,6 +179,7 @@ class CRM_Betterplace_Profile {
   public static function createDefaultProfile() {
     return new CRM_Betterplace_Profile('default', array(
       'selector'          => '',
+      'location_type_id'  => CRM_Betterplace_Submission::LOCATION_TYPE_ID_WORK,
       'financial_type_id' => 1, // "Donation"
       'campaign_id'       => '',
       'pi_creditcard'     => 1, // "Credit Card"

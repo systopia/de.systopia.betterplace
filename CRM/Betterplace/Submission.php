@@ -16,7 +16,9 @@
 
 class CRM_Betterplace_Submission {
 
-  // TODO: Verify.
+  /**
+   * The default ID of the "Work" location type.
+   */
   const LOCATION_TYPE_ID_WORK = 2;
 
   // TODO: Verify.
@@ -80,11 +82,13 @@ class CRM_Betterplace_Submission {
    *   The ID of the contact to share the organisation address with.
    * @param $organisation_id
    *   The ID of the organisation whose address to share with the contact.
+   * @param $location_type_id
+   *   The ID of the location type to use for address lookup.
    *
    * @return boolean
    *   Whether the organisation address has been shared with the contact.
    */
-  public static function shareWorkAddress($contact_id, $organisation_id) {
+  public static function shareWorkAddress($contact_id, $organisation_id, $location_type_id = self::LOCATION_TYPE_ID_WORK) {
     if (empty($organisation_id)) {
       // Only if organisation exists.
       return FALSE;
@@ -93,7 +97,7 @@ class CRM_Betterplace_Submission {
     // Check whether organisation has a WORK address.
     $existing_org_addresses = civicrm_api3('Address', 'get', array(
       'contact_id'       => $organisation_id,
-      'location_type_id' => self::LOCATION_TYPE_ID_WORK));
+      'location_type_id' => $location_type_id));
     if ($existing_org_addresses['count'] <= 0) {
       // Organisation does not have a WORK address.
       return FALSE;
@@ -102,7 +106,7 @@ class CRM_Betterplace_Submission {
     // Check whether contact already has a WORK address.
     $existing_contact_addresses = civicrm_api3('Address', 'get', array(
       'contact_id'       => $contact_id,
-      'location_type_id' => self::LOCATION_TYPE_ID_WORK));
+      'location_type_id' => $location_type_id));
     if ($existing_contact_addresses['count'] > 0) {
       // Contact already has a WORK address.
       return FALSE;

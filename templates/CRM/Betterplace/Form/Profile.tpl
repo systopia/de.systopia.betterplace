@@ -14,6 +14,7 @@
 +-------------------------------------------------------*}
 
 <div>
+
   <div class="crm-section">
     <div class="label">{$form.name.label}</div>
     <div class="content">{$form.name.html}</div>
@@ -23,6 +24,12 @@
   <div class="crm-section">
     <div class="label">{$form.selector.label}</div>
     <div class="content">{$form.selector.html}</div>
+    <div class="clear"></div>
+  </div>
+
+  <div class="crm-section">
+    <div class="label">{$form.location_type_id.label}</div>
+    <div class="content">{$form.location_type_id.html}</div>
     <div class="clear"></div>
   </div>
 
