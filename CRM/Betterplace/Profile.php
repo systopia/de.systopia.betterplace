@@ -154,6 +154,14 @@ class CRM_Betterplace_Profile {
   }
 
   /**
+   * Deletes the profile from the CiviCRM settings.
+   */
+  public function deleteProfile() {
+    unset(self::$_profiles[$this->getName()]);
+    self::storeProfiles();
+  }
+
+  /**
    * Returns an array of attributes allowed for a profile.
    *
    * @return array

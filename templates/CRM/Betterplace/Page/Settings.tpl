@@ -36,6 +36,11 @@
         </td>
         <td>
           <a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="op=edit&name=$profile_name"}" title="{ts domain="de.systopia.betterplace" 1=$profile.name}Edit profile %1{/ts}" class="action-item crm-hover-button">{ts domain="de.systopia.betterplace"}Edit{/ts}</a>
+          {if $profile_name == 'default'}
+            <a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="op=delete&name=$profile_name"}" title="{ts domain="de.systopia.betterplace" 1=$profile.name}Reset profile %1{/ts}" class="action-item crm-hover-button">{ts domain="de.systopia.betterplace"}Reset{/ts}</a>
+          {else}
+            <a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="op=delete&name=$profile_name"}" title="{ts domain="de.systopia.betterplace" 1=$profile.name}Delete profile %1{/ts}" class="action-item crm-hover-button">{ts domain="de.systopia.betterplace"}Delete{/ts}</a>
+          {/if}
 
         </td>
       </tr>

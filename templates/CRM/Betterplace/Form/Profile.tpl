@@ -71,6 +71,16 @@
     </div>
 
   </div>
+{elseif $op == 'delete'}
+  {if $profile_name}
+    {if $profile_name == 'default'}
+      <div>{ts domain="de.systopia.betterplace" 1=$profile_name}Are you sure you want to reset the default profile?{/ts}</div>
+    {else}
+      <div>{ts domain="de.systopia.betterplace" 1=$profile_name}Are you sure you want to delete the profile <em>%1</em>?{/ts}</div>
+    {/if}
+  {else}
+    <div class="crm-error">{ts domain="de.systopia.betterplace"}Profile name not given or invalid.{/ts}</div>
+  {/if}
 {/if}
 
 {* FOOTER *}

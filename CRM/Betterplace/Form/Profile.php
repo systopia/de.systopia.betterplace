@@ -68,6 +68,19 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     $this->controller->_destination = CRM_Utils_System::url('civicrm/admin/settings/betterplace', 'reset=1');
 
     switch ($this->_op) {
+      case 'delete':
+        if ($profile_name) {
+          CRM_Utils_System::setTitle(E::ts('Delete betterplace.org Direkt API profile <em>%1</em>', array(1 => $profile_name)));
+          $this->addButtons(array(
+            array(
+              'type' => 'submit',
+              'name' => ($profile_name == 'default' ? E::ts('Reset') : E::ts('Delete')),
+              'isDefault' => TRUE,
+            ),
+          ));
+        }
+        parent::buildQuickForm();
+        return;
       case 'edit':
         // When editing without a valid profile name, edit the default profile.
         if (!$profile_name) {
@@ -229,6 +242,8 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
       }
       $this->profile->saveProfile();
     }
+    elseif ($this->_op == 'delete') {
+      $this->profile->deleteProfile();
     }
     parent::postProcess();
   }
