@@ -147,7 +147,33 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     parent::buildQuickForm();
   }
 
+  /**
+   * @inheritdoc
+   */
+  public function addRules() {
+    $this->addFormRule(array('CRM_Betterplace_Form_Profile', 'validateProfileForm'));
+  }
 
+  /**
+   * Validates the profile form.
+   *
+   * @param array $values
+   *   The submitted form values, keyed by form element name.
+   *
+   * @return bool | array
+   *   TRUE when the form was successfully validated, or an array of error
+   *   messages, keyed by form element name.
+   */
+  public static function validateProfileForm($values) {
+    $errors = array();
+
+    // Restrict profile names to alphanumeric characters and the underscore.
+    if (preg_match("/[^A-Za-z0-9\_]/", $values['name'])) {
+      $errors['name'] = E::ts('Only alphanumeric characters and the underscore (_) are allowed for profile names.');
+    }
+
+    return empty($errors) ? TRUE : $errors;
+  }
 
   /**
    * Set the default values (i.e. the profile's current data) in the form.
