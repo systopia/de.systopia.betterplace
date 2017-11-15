@@ -204,7 +204,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     $errors = array();
 
     // Restrict profile names to alphanumeric characters and the underscore.
-    if (preg_match("/[^A-Za-z0-9\_]/", $values['name'])) {
+    if (isset($values['name']) && preg_match("/[^A-Za-z0-9\_]/", $values['name'])) {
       $errors['name'] = E::ts('Only alphanumeric characters and the underscore (_) are allowed for profile names.');
     }
 
