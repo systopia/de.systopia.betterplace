@@ -174,10 +174,13 @@ class CRM_Betterplace_Profile {
   /**
    * Returns the default profile with "factory" defaults.
    *
+   * @param string $name
+   *   The profile name. Defaults to "default".
+   *
    * @return CRM_Betterplace_Profile
    */
-  public static function createDefaultProfile() {
-    return new CRM_Betterplace_Profile('default', array(
+  public static function createDefaultProfile($name = 'default') {
+    return new CRM_Betterplace_Profile($name, array(
       'selector'          => '',
       'location_type_id'  => CRM_Betterplace_Submission::LOCATION_TYPE_ID_WORK,
       'financial_type_id' => 1, // "Donation"

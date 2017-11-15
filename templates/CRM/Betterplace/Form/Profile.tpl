@@ -13,63 +13,65 @@
 | written permission from the original author(s).        |
 +-------------------------------------------------------*}
 
-<div>
+{if $op == 'create' or $op == 'edit'}
+  <div>
 
-  <div class="crm-section">
-    <div class="label">{$form.name.label}</div>
-    <div class="content">{$form.name.html}</div>
-    <div class="clear"></div>
+    <div class="crm-section">
+      <div class="label">{$form.name.label}</div>
+      <div class="content">{$form.name.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.selector.label}</div>
+      <div class="content">{$form.selector.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.location_type_id.label}</div>
+      <div class="content">{$form.location_type_id.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.financial_type_id.label}</div>
+      <div class="content">{$form.financial_type_id.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.campaign_id.label}</div>
+      <div class="content">{$form.campaign_id.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.pi_creditcard.label}</div>
+      <div class="content">{$form.pi_creditcard.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.pi_paypal.label}</div>
+      <div class="content">{$form.pi_paypal.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.pi_sepa.label}</div>
+      <div class="content">{$form.pi_sepa.html}</div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="crm-section">
+      <div class="label">{$form.groups.label}</div>
+      <div class="content">{$form.groups.html}</div>
+      <div class="clear"></div>
+    </div>
+
   </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.selector.label}</div>
-    <div class="content">{$form.selector.html}</div>
-    <div class="clear"></div>
-  </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.location_type_id.label}</div>
-    <div class="content">{$form.location_type_id.html}</div>
-    <div class="clear"></div>
-  </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.financial_type_id.label}</div>
-    <div class="content">{$form.financial_type_id.html}</div>
-    <div class="clear"></div>
-  </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.campaign_id.label}</div>
-    <div class="content">{$form.campaign_id.html}</div>
-    <div class="clear"></div>
-  </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.pi_creditcard.label}</div>
-    <div class="content">{$form.pi_creditcard.html}</div>
-    <div class="clear"></div>
-  </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.pi_paypal.label}</div>
-    <div class="content">{$form.pi_paypal.html}</div>
-    <div class="clear"></div>
-  </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.pi_sepa.label}</div>
-    <div class="content">{$form.pi_sepa.html}</div>
-    <div class="clear"></div>
-  </div>
-
-  <div class="crm-section">
-    <div class="label">{$form.groups.label}</div>
-    <div class="content">{$form.groups.html}</div>
-    <div class="clear"></div>
-  </div>
-
-</div>
+{/if}
 
 {* FOOTER *}
 <div class="crm-submit-buttons">

@@ -13,7 +13,7 @@
 | written permission from the original author(s).        |
 +-------------------------------------------------------*}
 
-<a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="new=1"}" title="{ts domain="de.systopia.betterplace"}New profile{/ts}" class="button">
+<a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="op=create"}" title="{ts domain="de.systopia.betterplace"}New profile{/ts}" class="button">
   <span><i class="crm-i fa-plus-circle"></i> {ts domain="de.systopia.betterplace"}New profile{/ts}</span>
 </a>
 {if !empty($profiles)}
@@ -34,7 +34,10 @@
           <div><strong>{ts domain="de.systopia.betterplace"}Selector{/ts}:</strong> {$profile.selector}</div>
           {* TODO: More properties *}
         </td>
-        <td><a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="name=$profile_name"}" title="{ts domain="de.systopia.betterplace" 1=$profile.name}Edit profile %1{/ts}" class="action-item crm-hover-button">{ts domain="de.systopia.betterplace"}Edit{/ts}</a></td>
+        <td>
+          <a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="op=edit&name=$profile_name"}" title="{ts domain="de.systopia.betterplace" 1=$profile.name}Edit profile %1{/ts}" class="action-item crm-hover-button">{ts domain="de.systopia.betterplace"}Edit{/ts}</a>
+
+        </td>
       </tr>
     {/foreach}
     </tbody>

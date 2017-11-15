@@ -31,6 +31,13 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
   protected $profile;
 
   /**
+   * @var string
+   *
+   * The operation to perform within the form.
+   */
+  protected $_op;
+
+  /**
    * @var array
    *
    * A static cache of retrieved payment instruments found within
@@ -42,26 +49,42 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
    * Builds the form structure.
    */
   public function buildQuickForm() {
-
-    // Get the profile the form is acting on.
-    if (!$profile_name = CRM_Utils_Request::retrieve('name', 'String', $this)) {
-      if (CRM_Utils_Request::retrieve('new', 'Boolean', $this)) {
-        $profile_name = NULL;
-      }
-      else {
-        $profile_name = 'default';
-      }
+    // "Create" is the default operation.
+    if (!$this->_op = CRM_Utils_Request::retrieve('op', 'String', $this)) {
+      $this->_op = 'create';
     }
+
+    // Verify that profile with the given name exists.
+    $profile_name = CRM_Utils_Request::retrieve('name', 'String', $this);
     if (!$this->profile = CRM_Betterplace_Profile::getProfile($profile_name)) {
-      $this->profile = new CRM_Betterplace_Profile(NULL, array());
-      CRM_Utils_System::setTitle(E::ts('New betterplace.org Direkt API profile'));
-    }
-    else {
-      CRM_Utils_System::setTitle(E::ts('Edit betterplace.org Direkt API profile <em>%1</em>', array(1 => $this->profile->getName())));
+      $profile_name = NULL;
     }
 
-    // add form elements
-    $is_default = $this->profile->getName() == 'default';
+    // Assign template variables.
+    $this->assign('op', $this->_op);
+    $this->assign('profile_name', $profile_name);
+
+    // Set redirect destination.
+    $this->controller->_destination = CRM_Utils_System::url('civicrm/admin/settings/betterplace', 'reset=1');
+
+    switch ($this->_op) {
+      case 'edit':
+        // When editing without a valid profile name, edit the default profile.
+        if (!$profile_name) {
+          $profile_name = 'default';
+          $this->profile = CRM_Betterplace_Profile::getProfile($profile_name);
+        }
+        CRM_Utils_System::setTitle(E::ts('Edit betterplace.org Direkt API profile <em>%1</em>', array(1 => $this->profile->getName())));
+        break;
+      case 'create':
+        // Load factory default profile values.
+        $this->profile = CRM_Betterplace_Profile::createDefaultProfile($profile_name);
+        CRM_Utils_System::setTitle(E::ts('New betterplace.org Direkt API profile'));
+        break;
+    }
+
+    // Add form elements.
+    $is_default = $profile_name == 'default';
     $this->add(
       ($is_default ? 'static' : 'text'),
       'name',
@@ -180,26 +203,33 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
    */
   public function setDefaultValues() {
     $defaults = parent::setDefaultValues();
-    $defaults['name'] = $this->profile->getName();
-    foreach ($this->profile->getData() as $element_name => $value) {
-      $defaults[$element_name] = $value;
+    if (in_array($this->_op, array('create', 'edit'))) {
+      $defaults['name'] = $this->profile->getName();
+      foreach ($this->profile->getData() as $element_name => $value) {
+        $defaults[$element_name] = $value;
+      }
     }
     return $defaults;
   }
-
 
   /**
    * Store the values submitted with the form in the profile.
    */
   public function postProcess() {
     $values = $this->exportValues();
-    $this->profile->setName($values['name']);
-    foreach ($this->profile->getData() as $element_name => $value) {
-      if (isset($values[$element_name])) {
-        $this->profile->setAttribute($element_name, $values[$element_name]);
+    if (in_array($this->_op, array('create', 'edit'))) {
+      if (empty($values['name'])) {
+        $values['name'] = 'default';
       }
+      $this->profile->setName($values['name']);
+      foreach ($this->profile->getData() as $element_name => $value) {
+        if (isset($values[$element_name])) {
+          $this->profile->setAttribute($element_name, $values[$element_name]);
+        }
+      }
+      $this->profile->saveProfile();
     }
-    $this->profile->saveProfile();
+    }
     parent::postProcess();
   }
 
