@@ -17,7 +17,7 @@
 function civicrm_api3_b_p_donation_revocation($params) {
   $contribution = civicrm_api3('Contribution', 'get', array(
     'id' => $params['contribution_id'],
-    // TODO: trxn_id
+    'trxn_id' => $params['donation_id'],
   ));
   if ($contribution['count'] <= 0) {
     return civicrm_api3_create_error('The contribution could not be found.');
@@ -25,15 +25,13 @@ function civicrm_api3_b_p_donation_revocation($params) {
   $contribution_data = array(
     'id' => $contribution['id'],
     'contribution_status_id' => 'Refunded',
+    'trxn_id' => $params['donation_id'],
   );
   if (isset($params['time'])) {
     if (!is_numeric($params['time'])) {
       return civicrm_api3_create_error('Parameter "revoked_at" must not be empty.');
     }
     $contribution_data['cancel_date'] = date('YmdHis', $params['time']);
-  }
-  if (!empty($params['donation_id'])) {
-    $contribution_data['trxn_id'] = $params['donation_id'];
   }
   $contribution = civicrm_api3('Contribution', 'create', $contribution_data);
 
@@ -59,7 +57,7 @@ function _civicrm_api3_b_p_donation_revocation_spec(&$params) {
     'name'         => 'donation_id',
     'title'        => 'Donation ID',
     'type'         => CRM_Utils_Type::T_STRING,
-    'api.required' => 0,
+    'api.required' => 1,
     'description'  => 'The donation ID.',
   );
   $params['time'] = array(
