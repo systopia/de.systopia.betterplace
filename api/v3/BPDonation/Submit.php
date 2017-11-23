@@ -15,6 +15,9 @@
 +--------------------------------------------------------*/
 
 function civicrm_api3_b_p_donation_submit($params) {
+  // Data parameters to top-level.
+  $params += $params['data'];
+
   // Check for valid API action.
   $actions = civicrm_api3('BPDonation', 'getactions');
   if (!in_array($params['type'], $actions['values'])) {
@@ -129,6 +132,13 @@ function _civicrm_api3_b_p_donation_submit_spec(&$params) {
     'api.required' => 1,
     'api.default' => 'submit',
     'description' => 'The API action.',
+  );
+  $params['data'] = array(
+    'name' => 'data',
+    'title' => 'API call data',
+    'type' => CRM_Utils_Type::T_STRING,
+    'api.required' => 0,
+    'description' => 'An array of data for the API action.',
   );
   $params['contribution_id'] = array(
     'name' => 'foreign_id',
