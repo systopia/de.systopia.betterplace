@@ -15,6 +15,30 @@
 +--------------------------------------------------------*/
 
 function civicrm_api3_b_p_donation_submit($params) {
+  // Check for valid API action.
+  $actions = civicrm_api3('BPDonation', 'getactions');
+  if (!in_array($params['type'], $actions['values'])) {
+    return civicrm_api3_create_error('Unknown API action.');
+  }
+  // Call API action when not "submit".
+  if ($params['type'] != 'submit') {
+    return civicrm_api3('BPDonation', $params['type'], $params);
+  }
+
+  // Check for required parameters. We can not use the API specification for
+  // required, as that is different per API action.
+  $required_submit_params = array(
+    'form_id',
+    'email',
+    'amount_in_cents',
+    'payment_method',
+  );
+  foreach ($required_submit_params as $required_submit_param) {
+    if (empty($params[$required_submit_param])) {
+      return civicrm_api3_create_error('Parameter ' . $required_submit_param . ' is required.');
+    }
+  }
+
   // Get the profile defined for the given form ID, or the default profile if
   // none matches.
   $profile = CRM_Betterplace_Profile::getProfileForForm($params['form_id']);
@@ -98,11 +122,26 @@ function civicrm_api3_b_p_donation_submit($params) {
 }
 
 function _civicrm_api3_b_p_donation_submit_spec(&$params) {
+  $params['type'] = array(
+    'name' => 'type',
+    'title' => 'API action',
+    'type' => CRM_Utils_Type::T_STRING,
+    'api.required' => 1,
+    'api.default' => 'submit',
+    'description' => 'The API action.',
+  );
+  $params['contribution_id'] = array(
+    'name' => 'foreign_id',
+    'title' => 'CiviCRM contribution ID',
+    'type' => CRM_Utils_Type::T_INT,
+    'api.required' => 0,
+    'description' => 'ID of the CiviCRM Contribution entity',
+  );
   $params['form_id'] = array(
     'name'         => 'form_id',
     'title'        => 'betterplace.org Direkt form ID',
     'type'         => CRM_Utils_Type::T_STRING,
-    'api.required' => 1,
+    'api.required' => 0,
     'description'  => 'ID of the betterplace.org Direkt form.',
   );
   $params['first_name'] = array(
@@ -123,7 +162,7 @@ function _civicrm_api3_b_p_donation_submit_spec(&$params) {
     'name'         => 'email',
     'title'        => 'Email',
     'type'         => CRM_Utils_Type::T_STRING,
-    'api.required' => 1,
+    'api.required' => 0,
     'description'  => 'The contact\'s email.',
   );
   $params['street_address'] = array(
@@ -175,18 +214,25 @@ function _civicrm_api3_b_p_donation_submit_spec(&$params) {
     'api.required' => 0,
     'description'  => 'A timestamp when the donation was issued.',
   );
+  $params['revoked_at'] = array(
+    'name'         => 'revoked_at',
+    'title'        => 'Revoked at',
+    'type'         => CRM_Utils_Type::T_INT,
+    'api.required' => 0,
+    'description'  => 'A timestamp when the donation was cancelled.',
+  );
   $params['amount_in_cents'] = array(
     'name'         => 'amount_in_cents',
     'title'        => 'Amount (in cents)',
     'type'         => CRM_Utils_Type::T_INT,
-    'api.required' => 1,
+    'api.required' => 0,
     'description'  => 'The donation amount in Euro cents.',
   );
   $params['payment_method'] = array(
     'name'         => 'payment_method',
     'title'        => 'Payment method',
     'type'         => CRM_Utils_Type::T_STRING,
-    'api.required' => 1,
+    'api.required' => 0,
     'description'  => 'The payment method used for the donation.',
   );
   $params['campaign'] = array(
