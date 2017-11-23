@@ -70,11 +70,11 @@ function civicrm_api3_b_p_donation_submit($params) {
   if (!empty($params['donation_id'])) {
     $contribution_data['trxn_id'] = $params['donation_id'];
   }
-  if (isset($params['time'])) {
-    if (!is_numeric($params['time'])) {
+  if (isset($params['confirmed_at'])) {
+    if (!is_numeric($params['confirmed_at'])) {
       return civicrm_api3_create_error('Parameter "confirmed_at" must not be empty.');
     }
-    $contribution_data['receive_date'] = date('YmdHis', $params['time']);
+    $contribution_data['receive_date'] = date('YmdHis', $params['confirmed_at']);
   }
   // Add campaign relationship if defined in the profile.
   if (!empty($campaign_id = $profile->getAttribute('campaign_id'))) {
@@ -168,7 +168,7 @@ function _civicrm_api3_b_p_donation_submit_spec(&$params) {
     'api.required' => 0,
     'description'  => 'The donation ID.',
   );
-  $params['time'] = array(
+  $params['confirmed_at'] = array(
     'name'         => 'confirmed_at',
     'title'        => 'Confirmed at',
     'type'         => CRM_Utils_Type::T_INT,

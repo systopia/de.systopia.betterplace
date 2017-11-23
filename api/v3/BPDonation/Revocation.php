@@ -27,11 +27,11 @@ function civicrm_api3_b_p_donation_revocation($params) {
     'contribution_status_id' => 'Refunded',
     'trxn_id' => $params['donation_id'],
   );
-  if (isset($params['time'])) {
-    if (!is_numeric($params['time'])) {
+  if (isset($params['revoked_at'])) {
+    if (!is_numeric($params['revoked_at'])) {
       return civicrm_api3_create_error('Parameter "revoked_at" must not be empty.');
     }
-    $contribution_data['cancel_date'] = date('YmdHis', $params['time']);
+    $contribution_data['cancel_date'] = date('YmdHis', $params['revoked_at']);
   }
   $contribution = civicrm_api3('Contribution', 'create', $contribution_data);
 
@@ -60,7 +60,7 @@ function _civicrm_api3_b_p_donation_revocation_spec(&$params) {
     'api.required' => 1,
     'description'  => 'The donation ID.',
   );
-  $params['time'] = array(
+  $params['revoked_at'] = array(
     'name'         => 'revoked_at',
     'title'        => 'Revoked at',
     'type'         => CRM_Utils_Type::T_INT,
