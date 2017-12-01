@@ -16,13 +16,10 @@
 
 function civicrm_api3_b_p_donation_submit($params) {
   // Data parameters to top-level.
-  $params += $params['data'];
-
-  // Check for valid API action.
-  $actions = civicrm_api3('BPDonation', 'getactions');
-  if (!in_array($params['type'], $actions['values'])) {
-    return civicrm_api3_create_error('Unknown API action.');
+  if (!empty($params['data'])) {
+    $params += $params['data'];
   }
+  
   // Call API action when not "submit".
   if ($params['type'] != 'submit') {
     return civicrm_api3('BPDonation', $params['type'], $params);
