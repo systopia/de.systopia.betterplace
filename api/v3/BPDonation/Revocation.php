@@ -25,7 +25,6 @@ function civicrm_api3_b_p_donation_revocation($params) {
   $contribution_data = array(
     'id' => $contribution['id'],
     'contribution_status_id' => 'Refunded',
-    'trxn_id' => $params['donation_id'],
   );
   if (isset($params['revoked_at'])) {
     if (!is_numeric($params['revoked_at'])) {
