@@ -33,6 +33,10 @@ function civicrm_api3_b_p_donation_revocation($params) {
     }
     $contribution_data['cancel_date'] = date('YmdHis', $params['revoked_at']);
   }
+  else {
+    // Set to now, when not given.
+    $contribution_data['cancel_date'] = date('YmdHis');
+  }
   $contribution = civicrm_api3('Contribution', 'create', $contribution_data);
 
   return civicrm_api3_create_success($contribution, $params);
