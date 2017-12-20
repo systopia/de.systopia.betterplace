@@ -16,7 +16,7 @@
 
 function civicrm_api3_b_p_donation_revocation($params) {
   $contribution = civicrm_api3('Contribution', 'get', array(
-    'id' => $params['contribution_id'],
+    'id' => $params['foreign_id'],
     'trxn_id' => $params['donation_id'],
   ));
   if ($contribution['count'] <= 0) {
@@ -42,7 +42,7 @@ function civicrm_api3_b_p_donation_revocation($params) {
 }
 
 function _civicrm_api3_b_p_donation_revocation_spec(&$params) {
-  $params['contribution_id'] = array(
+  $params['foreign_id'] = array(
     'name' => 'foreign_id',
     'title' => 'CiviCRM contribution ID',
     'type' => CRM_Utils_Type::T_INT,
