@@ -186,7 +186,7 @@ function civicrm_api3_b_p_donation_submit($params) {
         'betterplace_contact_failed_contribution_processing'
       );
       $activity_data = array(
-        'assignee_id'        => $assignee_id ?: CRM_Core_Session::singleton()->getLoggedInContactID(),
+        'assignee_id'        => $assignee_id,
         'activity_type_id'   => CRM_Core_OptionGroup::getValue('activity_type', 'betterplace_failed_contribution_processing', 'name'),
         'subject'            => 'Failed betterplace.org Direkt contribution processing',
         'activity_date_time' => date('YmdHis'),
@@ -196,13 +196,14 @@ function civicrm_api3_b_p_donation_submit($params) {
         'details'            => json_encode($params),
       );
       $activity = civicrm_api3('Activity', 'create', $activity_data);
-      $extraParams['additional_notices'][] = $activity;
-      if (!isset($contact_id)) {
-        $extraParams['additional_notices'][] = 'No contact ID is configured for assigning an activity of the type "Failed contribution processing". The activity has not been assigned to a contact.';
+      $extraParams['additional_notices']['activity']['result'] = $activity;
+      if (!isset($assignee_id)) {
+        $extraParams['additional_notices']['activity']['messages'][] = 'No contact ID is configured for assigning an activity of the type "Failed contribution processing". The activity has not been assigned to a contact.';
       }
     }
-    catch (Exception $activity_exception) {
-      $extraParams['additional_notices'][] = 'Failed creating an activity of the type "Failed contribution processing".';
+    catch (CiviCRM_API3_Exception $activity_exception) {
+      $extraParams['additional_notices']['activity']['messages'][] = 'Failed creating an activity of the type "Failed contribution processing".';
+      $extraParams['additional_notices']['activity']['result'] = civicrm_api3_create_error($activity_exception->getMessage(), $activity_exception->getExtraParams());
     }
 
     return civicrm_api3_create_error($exception->getMessage(), $extraParams);
