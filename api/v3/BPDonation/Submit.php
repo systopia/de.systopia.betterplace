@@ -166,7 +166,9 @@ function civicrm_api3_b_p_donation_submit($params) {
     ));
   }
   catch (CiviCRM_API3_Exception $exception) {
-    CRM_Core_Error::debug_log_message('BPDonation:submit:Exception caught: ' . $exception->getMessage());
+    if (defined('BETTERPLACE_API_LOGGING') && BETTERPLACE_API_LOGGING) {
+      CRM_Core_Error::debug_log_message('BPDonation:submit:Exception caught: ' . $exception->getMessage());
+    }
 
     $extraParams = $exception->getExtraParams();
 
