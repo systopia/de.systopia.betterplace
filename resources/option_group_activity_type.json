@@ -1,0 +1,19 @@
+{
+  "_lookup": ["name"],
+  "_translate": ["title"],
+  "name": "activity_type",
+  "title": "Activity Type",
+  "is_reserved": "0",
+  "is_active": "1",
+  "_values": [
+    {
+      "_lookup": ["name"],
+      "_translate": ["label"],
+      "label": "Failed betterplace.org Direkt contribution processing",
+      "name": "betterplace_failed_contribution_processing",
+      "filter": "0",
+      "is_reserved": "0",
+      "is_active": "1"
+    }
+  ]
+}

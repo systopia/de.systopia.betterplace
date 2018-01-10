@@ -30,6 +30,12 @@ function civicrm_api3_b_p_donation_revocation($params) {
     if (!is_numeric($params['revoked_at'])) {
       return civicrm_api3_create_error('Parameter "revoked_at" must not be empty.');
     }
+    // Convert UTC timestamp to local time.
+    $revoked_at_utc = date('YmdHis', $params['revoked_at']);
+    $revoked_at_date = date_create($revoked_at_utc, new DateTimeZone('UTC'));
+    $params['confirmed_at'] = $revoked_at_date
+      ->setTimezone(new DateTimeZone(date_default_timezone_get()))
+      ->getTimestamp();
     $contribution_data['cancel_date'] = date('YmdHis', $params['revoked_at']);
   }
   else {

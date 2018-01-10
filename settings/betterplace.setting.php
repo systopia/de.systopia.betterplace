@@ -14,24 +14,22 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
-use CRM_Betterplace_ExtensionUtil as E;
-
-class CRM_Betterplace_Page_Settings extends CRM_Core_Page {
-
-  public function run() {
-    // Example: Set the page-title dynamically; alternatively, declare a static title in xml/Menu/*.xml
-    CRM_Utils_System::setTitle(E::ts('Betterplace Settings'));
-
-    $profiles = array();
-    foreach (CRM_Betterplace_Profile::getProfiles() as $profile_name => $profile) {
-      $profiles[$profile_name]['name'] = $profile_name;
-      foreach (CRM_Betterplace_Profile::allowedAttributes() as $attribute) {
-        $profiles[$profile_name][$attribute] = $profile->getAttribute($attribute);
-      }
-    }
-    $this->assign('profiles', $profiles);
-
-    parent::run();
-  }
-
-}
+/*
+* Settings metadata file
+*/
+return array(
+  'betterplace_contact_failed_contribution_processing' => array(
+    'group_name' => 'de.systopia.betterplace',
+    'group' => 'de.systopia.betterplace',
+    'name' => 'betterplace_contact_failed_contribution_processing',
+    'type' => 'Integer',
+    'quick_form_type' => 'Element',
+    'html_type' => 'text',
+    'title' => 'Contact to assign "Failed contribution processing" activity',
+    'default' => NULL,
+    'add' => '4.6',
+    'is_domain' => 1,
+    'is_contact' => 0,
+    'description' => 'The ID of the contact to assign activities of type "Failed contribution processing".',
+  ),
+);

@@ -1,18 +1,32 @@
 <?xml version="1.0"?>
 <menu>
   <item>
+    <path>civicrm/admin/settings/betterplace</path>
+    <page_callback>CRM_Betterplace_Page_Configuration</page_callback>
+    <title>betterplace.org Direkt API Configuration</title>
+    <access_arguments>access CiviCRM</access_arguments>
+    <desc>Configure the betterplace.org Direkt API extension</desc>
+    <adminGroup>System Settings</adminGroup>
+    <icon>admin/option.png</icon>
+  </item>
+  <item>
+    <path>civicrm/admin/settings/betterplace/settings</path>
+    <page_callback>CRM_Betterplace_Form_Settings</page_callback>
+    <title>betterplace.org Direkt API Settings</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/admin/settings/betterplace/profiles</path>
+    <page_callback>CRM_Betterplace_Page_Profiles</page_callback>
+    <title>betterplace.org Direkt API profile settings</title>
+    <access_arguments>access CiviCRM</access_arguments>
+    <desc>Configure profiles for the betterplace.org Direkt API extension</desc>
+    <icon>admin/option.png</icon>
+  </item>
+  <item>
     <path>civicrm/admin/settings/betterplace/profile</path>
     <page_callback>CRM_Betterplace_Form_Profile</page_callback>
     <title>betterplace.org Direkt Profile</title>
     <access_arguments>administer CiviCRM</access_arguments>
-  </item>
-  <item>
-    <path>civicrm/admin/settings/betterplace</path>
-    <page_callback>CRM_Betterplace_Page_Settings</page_callback>
-    <title>betterplace.org Direkt API Settings</title>
-    <access_arguments>access CiviCRM</access_arguments>
-    <desc>Configure the settings of the betterplace.org Direkt API extension</desc>
-    <adminGroup>System Settings</adminGroup>
-    <icon>admin/option.png</icon>
   </item>
 </menu>

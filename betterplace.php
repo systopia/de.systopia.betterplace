@@ -69,6 +69,10 @@ function betterplace_civicrm_uninstall() {
  */
 function betterplace_civicrm_enable() {
   _betterplace_civix_civicrm_enable();
+
+  require_once 'CRM/Betterplace/CustomData.php';
+  $customData = new CRM_Betterplace_CustomData('de.systopia.betterplace');
+  $customData->syncOptionGroup(__DIR__ . '/resources/option_group_activity_type.json');
 }
 
 /**
@@ -78,6 +82,8 @@ function betterplace_civicrm_enable() {
  */
 function betterplace_civicrm_disable() {
   _betterplace_civix_civicrm_disable();
+
+  // TODO: Clean activities and activity type?
 }
 
 /**
