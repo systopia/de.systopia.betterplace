@@ -24,7 +24,7 @@ return array(
     'name' => 'betterplace_contact_failed_contribution_processing',
     'type' => 'Integer',
     'quick_form_type' => 'Element',
-    'html_type' => 'text',
+    'html_type' => 'text', // TODO: contact reference?
     'title' => 'Contact to assign "Failed contribution processing" activity',
     'default' => NULL,
     'add' => '4.6',
