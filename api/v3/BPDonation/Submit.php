@@ -174,7 +174,9 @@ function civicrm_api3_b_p_donation_submit($params) {
 
     // Rollback current base transaction in order to not rollback the creation
     // of the activity.
-    \Civi\Core\Transaction\Manager::singleton()->getBaseFrame()->forceRollback();
+    if (($frame = \Civi\Core\Transaction\Manager::singleton()->getFrame()) !== NULL) {
+      $frame->forceRollback();
+    }
     try {
       // Create an activity of type "Failed contribution processing" and assign
       // it to the contact defined in configuration with fallback to the
