@@ -1,10 +1,6 @@
 {
   "_lookup": ["name"],
-  "_translate": ["title"],
   "name": "activity_type",
-  "title": "Activity Type",
-  "is_reserved": "0",
-  "is_active": "1",
   "_values": [
     {
       "_lookup": ["name"],
