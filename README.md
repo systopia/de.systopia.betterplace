@@ -12,7 +12,7 @@ The extension is licensed under [AGPL-3.0](LICENSE.txt).
 ## Requirements
 
 * PHP v5.4+
-* CiviCRM (*FIXME: Version number*)
+* CiviCRM 4.6/4.7
 
 ## Installation (Web UI)
 
@@ -25,7 +25,7 @@ install it with the command-line tool [cv](https://github.com/civicrm/cv).
 
 ```bash
 cd <extension-dir>
-cv dl de.systopia.betterplace@https://github.com/FIXME/de.systopia.betterplace/archive/master.zip
+cv dl de.systopia.betterplace@https://github.com/systopia/de.systopia.betterplace/archive/master.zip
 ```
 
 ## Installation (CLI, Git)
@@ -34,7 +34,7 @@ Sysadmins and developers may clone the [Git](https://en.wikipedia.org/wiki/Git) 
 install it with the command-line tool [cv](https://github.com/civicrm/cv).
 
 ```bash
-git clone https://github.com/FIXME/de.systopia.betterplace.git
+git clone https://github.com/systopia/de.systopia.betterplace.git
 cv en betterplace
 ```
 
