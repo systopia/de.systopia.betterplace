@@ -10,7 +10,7 @@
     <path>civicrm/admin/settings/betterplace</path>
     <page_callback>CRM_Betterplace_Page_Settings</page_callback>
     <title>betterplace.org Direkt API Settings</title>
-    <access_arguments>access CiviCRM</access_arguments>
+    <access_arguments>administer CiviCRM</access_arguments>
     <desc>Configure the settings of the betterplace.org Direkt API extension</desc>
     <adminGroup>System Settings</adminGroup>
     <icon>admin/option.png</icon>
