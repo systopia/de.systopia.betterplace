@@ -50,7 +50,7 @@ function civicrm_api3_b_p_donation_submit($params) {
     }
 
     // Call API action when not "submit" or "new_donation".
-    if ($params['type'] != 'submit' && $params['type'] != 'new_donation') {
+    if (!empty($params['type']) && $params['type'] != 'submit' && $params['type'] != 'new_donation') {
       $type = $params['type'];
       unset($params['type']);
       return civicrm_api3('BPDonation', $type, $params);
@@ -137,6 +137,12 @@ function civicrm_api3_b_p_donation_submit($params) {
       if (!is_numeric($params['confirmed_at'])) {
         throw new CiviCRM_API3_Exception('Parameter "confirmed_at" must not be empty.', 'mandatory_missing');
       }
+      // Convert UTC timestamp to local time.
+      $confirmed_at_utc = date('YmdHis', $params['confirmed_at']);
+      $confirmed_at_date = date_create($confirmed_at_utc, new DateTimeZone('UTC'));
+      $params['confirmed_at'] = $confirmed_at_date
+        ->setTimezone(new DateTimeZone(date_default_timezone_get()))
+        ->getTimestamp();
       $contribution_data['receive_date'] = date('YmdHis', $params['confirmed_at']);
     }
     // Add campaign relationship if defined in the profile.
@@ -160,8 +166,47 @@ function civicrm_api3_b_p_donation_submit($params) {
     ));
   }
   catch (CiviCRM_API3_Exception $exception) {
-    CRM_Core_Error::debug_log_message('BPDonation:submit:Exception caught: ' . $exception->getMessage());
-    return civicrm_api3_create_error($exception->getMessage(), $exception->getExtraParams());
+    if (defined('BETTERPLACE_API_LOGGING') && BETTERPLACE_API_LOGGING) {
+      CRM_Core_Error::debug_log_message('BPDonation:submit:Exception caught: ' . $exception->getMessage());
+    }
+
+    $extraParams = $exception->getExtraParams();
+
+    // Rollback current base transaction in order to not rollback the creation
+    // of the activity.
+    if (($frame = \Civi\Core\Transaction\Manager::singleton()->getFrame()) !== NULL) {
+      $frame->forceRollback();
+    }
+    try {
+      // Create an activity of type "Failed contribution processing" and assign
+      // it to the contact defined in configuration with fallback to the
+      // currently logged in contact.
+      $assignee_id = CRM_Core_BAO_Setting::getItem(
+        'de.systopia.betterplace',
+        'betterplace_contact_failed_contribution_processing'
+      );
+      $activity_data = array(
+        'assignee_id'        => $assignee_id,
+        'activity_type_id'   => CRM_Core_OptionGroup::getValue('activity_type', 'betterplace_failed_contribution_processing', 'name'),
+        'subject'            => 'Failed betterplace.org Direkt contribution processing',
+        'activity_date_time' => date('YmdHis'),
+        'source_contact_id'  => CRM_Core_Session::singleton()->getLoggedInContactID(),
+        'status_id'          => CRM_Core_OptionGroup::getValue('activity_status', 'Scheduled', 'name'),
+        'target_id'          => $contact_id,
+        'details'            => json_encode($params),
+      );
+      $activity = civicrm_api3('Activity', 'create', $activity_data);
+      $extraParams['additional_notices']['activity']['result'] = $activity;
+      if (!isset($assignee_id)) {
+        $extraParams['additional_notices']['activity']['messages'][] = 'No contact ID is configured for assigning an activity of the type "Failed contribution processing". The activity has not been assigned to a contact.';
+      }
+    }
+    catch (CiviCRM_API3_Exception $activity_exception) {
+      $extraParams['additional_notices']['activity']['messages'][] = 'Failed creating an activity of the type "Failed contribution processing".';
+      $extraParams['additional_notices']['activity']['result'] = civicrm_api3_create_error($activity_exception->getMessage(), $activity_exception->getExtraParams());
+    }
+
+    return civicrm_api3_create_error($exception->getMessage(), $extraParams);
   }
 }
 

@@ -65,7 +65,7 @@ class CRM_Betterplace_Form_Profile extends CRM_Core_Form {
     $this->assign('profile_name', $profile_name);
 
     // Set redirect destination.
-    $this->controller->_destination = CRM_Utils_System::url('civicrm/admin/settings/betterplace', 'reset=1');
+    $this->controller->_destination = CRM_Utils_System::url('civicrm/admin/settings/betterplace/profiles', 'reset=1');
 
     switch ($this->_op) {
       case 'delete':
