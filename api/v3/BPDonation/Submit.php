@@ -15,6 +15,10 @@
 +--------------------------------------------------------*/
 
 function civicrm_api3_b_p_donation_submit($params) {
+  if (defined('BETTERPLACE_API_LOGGING') && BETTERPLACE_API_LOGGING) {
+    CRM_Core_Error::debug_log_message('BPDonation.submit: ' . json_encode($params));
+  }
+
   try {
     // Move data parameters to top-level.
     if (!empty($params['data'])) {
