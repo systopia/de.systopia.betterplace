@@ -1,25 +1,25 @@
 <?php
-/*-------------------------------------------------------+
-| SYSTOPIA Betterplace Integration                       |
-| Copyright (C) 2017 SYSTOPIA                            |
-| Author: B. Endres (endres@systopia.de)                 |
-|         J. Schuppe (schuppe@systopia.de)               |
-+--------------------------------------------------------+
-| This program is released as free software under the    |
-| Affero GPL license. You can redistribute it and/or     |
-| modify it under the terms of this license which you    |
-| can read by viewing the included agpl.txt or online    |
-| at www.gnu.org/licenses/agpl.html. Removal of this     |
-| copyright header is strictly prohibited without        |
-| written permission from the original author(s).        |
-+--------------------------------------------------------*/
+/*------------------------------------------------------------+
+| SYSTOPIA betterplace.org Spendenformular Direkt Integration |
+| Copyright (C) 2017 SYSTOPIA                                 |
+| Author: B. Endres (endres@systopia.de)                      |
+|         J. Schuppe (schuppe@systopia.de)                    |
++-------------------------------------------------------------+
+| This program is released as free software under the         |
+| Affero GPL license. You can redistribute it and/or          |
+| modify it under the terms of this license which you         |
+| can read by viewing the included agpl.txt or online         |
+| at www.gnu.org/licenses/agpl.html. Removal of this          |
+| copyright header is strictly prohibited without             |
+| written permission from the original author(s).             |
++-------------------------------------------------------------*/
 
 function civicrm_api3_b_p_donation_submit($params) {
   // Data parameters to top-level.
   if (!empty($params['data'])) {
     $params += $params['data'];
   }
-  
+
   // Call API action when not "submit".
   if ($params['type'] != 'submit') {
     return civicrm_api3('BPDonation', $params['type'], $params);

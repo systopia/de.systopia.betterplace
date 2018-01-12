@@ -1,17 +1,17 @@
-{*-------------------------------------------------------+
-| SYSTOPIA Betterplace Integration                       |
-| Copyright (C) 2017 SYSTOPIA                            |
-| Author: B. Endres (endres@systopia.de)                 |
-|         J. Schuppe (schuppe@systopia.de)               |
-+--------------------------------------------------------+
-| This program is released as free software under the    |
-| Affero GPL license. You can redistribute it and/or     |
-| modify it under the terms of this license which you    |
-| can read by viewing the included agpl.txt or online    |
-| at www.gnu.org/licenses/agpl.html. Removal of this     |
-| copyright header is strictly prohibited without        |
-| written permission from the original author(s).        |
-+-------------------------------------------------------*}
+{*------------------------------------------------------------+
+| SYSTOPIA betterplace.org Spendenformular Direkt Integration |
+| Copyright (C) 2017 SYSTOPIA                                 |
+| Author: B. Endres (endres@systopia.de)                      |
+|         J. Schuppe (schuppe@systopia.de)                    |
++-------------------------------------------------------------+
+| This program is released as free software under the         |
+| Affero GPL license. You can redistribute it and/or          |
+| modify it under the terms of this license which you         |
+| can read by viewing the included agpl.txt or online         |
+| at www.gnu.org/licenses/agpl.html. Removal of this          |
+| copyright header is strictly prohibited without             |
+| written permission from the original author(s).             |
++-------------------------------------------------------------*}
 
 <a href="{crmURL p="civicrm/admin/settings/betterplace/profile" q="op=create"}" title="{ts domain="de.systopia.betterplace"}New profile{/ts}" class="button">
   <span><i class="crm-i fa-plus-circle"></i> {ts domain="de.systopia.betterplace"}New profile{/ts}</span>
