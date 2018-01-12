@@ -76,6 +76,9 @@ function civicrm_api3_b_p_donation_submit($params) {
     // none matches.
     $profile = CRM_Betterplace_Profile::getProfileForForm($params['form_id']);
 
+    // Add location type to parameters.
+    $params['location_type_id'] = (int) $profile->getAttribute('location_type_id');
+
     // Exclude address for now when retrieving/creating the individual contact
     // and an organisation is given, as we are checking organisation address
     // first and share it with the individual.
@@ -85,7 +88,8 @@ function civicrm_api3_b_p_donation_submit($params) {
                  'street_address',
                  'postal_code',
                  'city',
-                 'country'
+                 'country',
+                 'location_type_id',
                ) as $address_component) {
         if (!empty($params[$address_component])) {
           $submitted_address[$address_component] = $params[$address_component];
@@ -109,12 +113,11 @@ function civicrm_api3_b_p_donation_submit($params) {
         throw new CiviCRM_API3_Exception('Organisation contact could not be found or created.', 'invalid_format');
       }
     }
-    $address_shared = isset($organisation_id) && CRM_Betterplace_Submission::shareWorkAddress($contact_id, $organisation_id, $profile->getAttribute('location_type_id'));
+    $address_shared = isset($organisation_id) && CRM_Betterplace_Submission::shareWorkAddress($contact_id, $organisation_id, $params['location_type_id']);
 
     // Address is not shared, use submitted address.
     if (!$address_shared && !empty($submitted_address)) {
       $submitted_address['contact_id'] = $contact_id;
-      $submitted_address['location_type_id'] = $profile->getAttribute('location_type_id');
       civicrm_api3('Address', 'create', $submitted_address);
     }
 
