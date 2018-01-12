@@ -15,6 +15,10 @@
 +--------------------------------------------------------*/
 
 function civicrm_api3_b_p_donation_revocation($params) {
+  if (defined('BETTERPLACE_API_LOGGING') && BETTERPLACE_API_LOGGING) {
+    CRM_Core_Error::debug_log_message('BPDonation.revocation: ' . json_encode($params));
+  }
+
   $contribution = civicrm_api3('Contribution', 'get', array(
     'id' => $params['foreign_id'],
     'trxn_id' => $params['donation_id'],
