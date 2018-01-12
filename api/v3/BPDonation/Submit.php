@@ -34,7 +34,9 @@ function civicrm_api3_b_p_donation_submit($params) {
              ) as $address_param => $address_component) {
       if (!empty($params[$address_param])) {
         $params[$address_component] = $params[$address_param];
-        unset($params[$address_param]);
+        if ($address_param != $address_component) {
+          unset($params[$address_param]);
+        }
       }
     }
 
