@@ -53,8 +53,8 @@ work with the callback data.
 | Url Part| Description |
 |-------|-------------|
 | DOMAIN | Your CiviCRM Domain |
-| APIKEY | The CiviCRM Api Key *FIXME:WORDING* *FIXME:LOCALTION IN CIVICRM* |
-| KEY | The CiviCRM *FIXME:WORDING* *FIXME:LOCALTION IN CIVICRM* |
+| APIKEY | The CiviCRM API Key of the contact you wish to use for performing API calls. |
+| KEY | The CiviCRM site key as defined as the constant CIVICRM_SITE_KEY in your civicrm.settings.php file. |
 
 
 ### Configure CiviCRM
@@ -74,8 +74,7 @@ Provide the CiviCRM-ID of the contact that will receive the activities
 
 #### Configure "profiles"
 
-Open "Configure profiles"
-at `/civicrm/admin/settings/betterplace/profiles`
+Open "Configure profiles" at `/civicrm/admin/settings/betterplace/profiles`
 
 The "default" profile is used whenever the plugin cannot match the
 betterplace.org Direkt form id from any other profile.
@@ -86,14 +85,14 @@ betterplace.org Direkt forms.
 
 | Label | Description |
 |-------|-------------|
-| Profile name | Internal name, used inside the extention |
-| Form IDs | betterplace.org Direkt form IDs. Separate multiple IDs by comma. Example: `e1e36e0a-d706-45ce-96b8-8948bee03efe` |
-| Adresstyp | Specify how the data that is send by the form should be categoriesed in CiviCRM. List is based on your CiviCRM configuration |
-| Kampagne | (Optional) Specify if a donation should be attributed to a CiviCRM Campaign. CiviCRM will ignore all attribution that was given inside the betterplace.org Direkt form. |
-| Record CreditCard as | Specifiy the "Zusendungsart" for donations via CC. |
-| Record PayPal as | Same |
-| Record SEPA direct debit as | Same |
-| Sign up for groups | Whenever the donor checked the newsletter checkbox, the contact will be assigned to the groups given in this list. |
+| Profile name | Internal name, used inside the extension. |
+| Form IDs | betterplace.org Direkt form IDs. Separate multiple IDs by commas. Example: `e1e36e0a-d706-45ce-96b8-8948bee03efe` |
+| Location type | Specify how the address data sent by the form should be categorised in CiviCRM. List is based on your CiviCRM configuration. |
+| Campaign | (Optional) Specify if a donation should be attributed to a CiviCRM Campaign. CiviCRM will ignore all attribution that was given inside the betterplace.org Direkt form. |
+| Record CreditCard as | Specifiy the payment method for donations via credit card. |
+| Record PayPal as | Specifiy the payment method for donations via PayPal. |
+| Record SEPA direct debit as | Specifiy the payment method for donations via SEPA direct debit. |
+| Sign up for groups | Whenever the donor checked the newsletter checkbox, the contact will be assigned to the groups listed here. |
 
 ## Known Issues
 
