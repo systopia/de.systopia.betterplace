@@ -138,7 +138,7 @@ function civicrm_api3_b_p_donation_submit($params) {
       'payment_instrument_id' => $payment_instrument_id,
       'total_amount' => $params['amount_in_cents'] / 100,
       'contribution_status_id' => 'Completed',
-      'source' => 'betterplace.org Direkt form ' . $params['form_id'],
+      'source' => 'https://www.spendenformular-direkt.org/backoffice/donations/' . $params['donation_id'],
     );
     if (!empty($params['donation_id'])) {
       $contribution_data['trxn_id'] = $params['donation_id'];
