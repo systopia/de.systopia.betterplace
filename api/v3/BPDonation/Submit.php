@@ -146,12 +146,6 @@ function civicrm_api3_b_p_donation_submit($params) {
       if (!is_numeric($params['confirmed_at'])) {
         throw new CiviCRM_API3_Exception('Parameter "confirmed_at" must not be empty.', 'mandatory_missing');
       }
-      // Convert UTC timestamp to local time.
-      $confirmed_at_utc = date('YmdHis', $params['confirmed_at']);
-      $confirmed_at_date = date_create($confirmed_at_utc, new DateTimeZone('UTC'));
-      $params['confirmed_at'] = $confirmed_at_date
-        ->setTimezone(new DateTimeZone(date_default_timezone_get()))
-        ->getTimestamp();
       $contribution_data['receive_date'] = date('YmdHis', $params['confirmed_at']);
     }
     // Add campaign relationship if defined in the profile.
