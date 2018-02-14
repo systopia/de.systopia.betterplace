@@ -13,77 +13,72 @@
 | written permission from the original author(s).             |
 +-------------------------------------------------------------*}
 
-{if $op == 'create' or $op == 'edit'}
-  <div>
+<div class="crm-block crm-form-block">
 
-    <div class="crm-section">
-      <div class="label">{$form.name.label}</div>
-      <div class="content">{$form.name.html}</div>
-      <div class="clear"></div>
-    </div>
+  {if $op == 'create' or $op == 'edit'}
+    <table class="form-layout-compressed">
 
-    <div class="crm-section">
-      <div class="label">{$form.selector.label}</div>
-      <div class="content">{$form.selector.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.name.label}</td>
+        <td class="content">{$form.name.html}</td>
+      </tr>
 
-    <div class="crm-section">
-      <div class="label">{$form.location_type_id.label}</div>
-      <div class="content">{$form.location_type_id.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.selector.label}</td>
+        <td class="content">{$form.selector.html}</td>
+      </tr>
 
-    <div class="crm-section">
-      <div class="label">{$form.financial_type_id.label}</div>
-      <div class="content">{$form.financial_type_id.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.location_type_id.label}</td>
+        <td class="content">{$form.location_type_id.html}</td>
+      </tr>
 
-    <div class="crm-section">
-      <div class="label">{$form.campaign_id.label}</div>
-      <div class="content">{$form.campaign_id.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.financial_type_id.label}</td>
+        <td class="content">{$form.financial_type_id.html}</td>
+      </tr>
 
-    <div class="crm-section">
-      <div class="label">{$form.pi_creditcard.label}</div>
-      <div class="content">{$form.pi_creditcard.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.campaign_id.label}</td>
+        <td class="content">{$form.campaign_id.html}</td>
+      </tr>
 
-    <div class="crm-section">
-      <div class="label">{$form.pi_paypal.label}</div>
-      <div class="content">{$form.pi_paypal.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.pi_creditcard.label}</td>
+        <td class="content">{$form.pi_creditcard.html}</td>
+      </tr>
 
-    <div class="crm-section">
-      <div class="label">{$form.pi_sepa.label}</div>
-      <div class="content">{$form.pi_sepa.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.pi_paypal.label}</td>
+        <td class="content">{$form.pi_paypal.html}</td>
+      </tr>
 
-    <div class="crm-section">
-      <div class="label">{$form.groups.label}</div>
-      <div class="content">{$form.groups.html}</div>
-      <div class="clear"></div>
-    </div>
+      <tr class="crm-section">
+        <td class="label">{$form.pi_sepa.label}</td>
+        <td class="content">{$form.pi_sepa.html}</td>
+      </tr>
 
-  </div>
-{elseif $op == 'delete'}
-  {if $profile_name}
-    {if $profile_name == 'default'}
-      <div>{ts domain="de.systopia.betterplace" 1=$profile_name}Are you sure you want to reset the default profile?{/ts}</div>
+      <tr class="crm-section">
+        <td class="label">{$form.groups.label}</td>
+        <td class="content">{$form.groups.html}</td>
+      </tr>
+
+    </table>
+  {elseif $op == 'delete'}
+    {if $profile_name}
+      {if $profile_name == 'default'}
+        <div class="status">{ts domain="de.systopia.betterplace" 1=$profile_name}Are you sure you want to reset the default profile?{/ts}</div>
+      {else}
+        <div class="status">{ts domain="de.systopia.betterplace" 1=$profile_name}Are you sure you want to delete the profile <em>%1</em>?{/ts}</div>
+      {/if}
     {else}
-      <div>{ts domain="de.systopia.betterplace" 1=$profile_name}Are you sure you want to delete the profile <em>%1</em>?{/ts}</div>
+      <div class="crm-error">{ts domain="de.systopia.betterplace"}Profile name not given or invalid.{/ts}</div>
     {/if}
-  {else}
-    <div class="crm-error">{ts domain="de.systopia.betterplace"}Profile name not given or invalid.{/ts}</div>
   {/if}
-{/if}
 
-{* FOOTER *}
-<div class="crm-submit-buttons">
-{include file="CRM/common/formButtons.tpl" location="bottom"}
+  {* FOOTER *}
+  <div class="crm-submit-buttons">
+    {include file="CRM/common/formButtons.tpl" location="bottom"}
+  </div>
+
 </div>

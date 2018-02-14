@@ -55,9 +55,11 @@ class CRM_Betterplace_Form_Settings extends CRM_Core_Form {
         else {
           $this->$add($name, ts($setting['title']));
         }
-        $this->assign("{$setting['description']}_description", ts('description'));
+        $form_elements[$setting['name']] = array('description' => ts($setting['description']));
       }
     }
+
+    $this->assign('formElements', $form_elements);
 
     $this->addButtons(array(
       array (

@@ -13,28 +13,31 @@
 | written permission from the original author(s).        |
 +-------------------------------------------------------*}
 
-{* HEADER *}
+<div class="crm-block crm-form-block crm-betterplace-form-block">
 
-<div class="crm-submit-buttons">
-  {include file="CRM/common/formButtons.tpl" location="top"}
-</div>
-
-{* FIELD EXAMPLE: OPTION 1 (AUTOMATIC LAYOUT) *}
-
-{foreach from=$elementNames item=elementName}
-  <div class="crm-section">
-    <div class="label">{$form.$elementName.label}</div>
-    <div class="content">{$form.$elementName.html}</div>
-    <div class="clear"></div>
+  {* HEADER *}
+  <div class="crm-submit-buttons">
+    {include file="CRM/common/formButtons.tpl" location="top"}
   </div>
-{/foreach}
 
-{* FIELD EXAMPLE: OPTION 2 (MANUAL LAYOUT)
-  <div>
-    <span>{$form.favorite_color.label}</span>
-    <span>{$form.favorite_color.html}</span>
+  <table class="form-layout-compressed">
+  {foreach from=$elementNames item=elementName}
+    <tr class="crm-betterplace-form-block-{$form.$elementName.name}">
+      <td class="label">{$form.$elementName.label}</td>
+      <td>
+        {$form.$elementName.html}
+        <br />
+        <span class="description">
+          {$formElements.$elementName.description}
+        </span>
+      </td>
+    </tr>
+  {/foreach}
+  </table>
+
+  {* FOOTER *}
+  <div class="crm-submit-buttons">
+    {include file="CRM/common/formButtons.tpl" location="bottom"}
   </div>
-{* FOOTER *}
-<div class="crm-submit-buttons">
-  {include file="CRM/common/formButtons.tpl" location="bottom"}
+
 </div>

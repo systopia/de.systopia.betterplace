@@ -12,10 +12,15 @@
 | copyright header is strictly prohibited without             |
 | written permission from the original author(s).             |
 +-------------------------------------------------------------*}
+<div class="crm-block crm-content-block">
+  <div class="crm-submit-buttons">
 
-<a href="{crmURL p="civicrm/admin/settings/betterplace/profiles"}" title="{ts domain="de.systopia.betterplace"}Profiles{/ts}" class="button">
-  <span>{ts domain="de.systopia.betterplace"}Configure profiles{/ts}</span>
-</a>
-<a href="{crmURL p="civicrm/admin/settings/betterplace/settings"}" title="{ts domain="de.systopia.betterplace"}Settings{/ts}" class="button">
-  <span>{ts domain="de.systopia.betterplace"}Configure extension settings{/ts}</span>
-</a>
+    <a href="{crmURL p="civicrm/admin/settings/betterplace/profiles"}" title="{ts domain="de.systopia.betterplace"}Profiles{/ts}" class="button">
+      <span>{ts domain="de.systopia.betterplace"}Configure profiles{/ts}</span>
+    </a>
+    <a href="{crmURL p="civicrm/admin/settings/betterplace/settings"}" title="{ts domain="de.systopia.betterplace"}Settings{/ts}" class="button">
+      <span>{ts domain="de.systopia.betterplace"}Configure extension settings{/ts}</span>
+    </a>
+
+  </div>
+</div>
