@@ -134,7 +134,7 @@ function civicrm_api3_b_p_donation_submit($params) {
     // Create contribution.
     $contribution_data = array(
       'financial_type_id' => $profile->getAttribute('financial_type_id'),
-      'contact_id' => $contact_id,
+      'contact_id' => (isset($organisation_id) ? $organisation_id : $contact_id),
       'payment_instrument_id' => $payment_instrument_id,
       'total_amount' => $params['amount_in_cents'] / 100,
       'contribution_status_id' => 'Completed',
@@ -196,7 +196,7 @@ function civicrm_api3_b_p_donation_submit($params) {
         'activity_date_time' => date('YmdHis'),
         'source_contact_id'  => CRM_Core_Session::singleton()->getLoggedInContactID(),
         'status_id'          => CRM_Core_OptionGroup::getValue('activity_status', 'Scheduled', 'name'),
-        'target_id'          => $contact_id,
+        'target_id'          => (isset($organisation_id) ? $organisation_id : $contact_id),
         'details'            => json_encode($params),
       );
       $activity = civicrm_api3('Activity', 'create', $activity_data);
