@@ -185,10 +185,7 @@ function civicrm_api3_b_p_donation_submit($params) {
       // Create an activity of type "Failed contribution processing" and assign
       // it to the contact defined in configuration with fallback to the
       // currently logged in contact.
-      $assignee_id = CRM_Core_BAO_Setting::getItem(
-        'de.systopia.betterplace',
-        'betterplace_contact_failed_contribution_processing'
-      );
+      $assignee_id = Civi::settings()->get('betterplace_contact_failed_contribution_processing');
       $activity_data = array(
         'assignee_id'        => $assignee_id,
         'activity_type_id'   => CRM_Core_OptionGroup::getValue('activity_type', 'betterplace_failed_contribution_processing', 'name'),

@@ -247,7 +247,7 @@ class CRM_Betterplace_Profile {
   public static function getProfiles() {
     if (self::$_profiles === NULL) {
       self::$_profiles = array();
-      if ($profiles_data = CRM_Core_BAO_Setting::getItem('de.systopia.betterplace', 'betterplace_profiles')) {
+      if ($profiles_data = Civi::settings()->get('betterplace_profiles')) {
         foreach ($profiles_data as $profile_name => $profile_data) {
           self::$_profiles[$profile_name] = new CRM_Betterplace_Profile($profile_name, $profile_data);
         }
@@ -272,6 +272,6 @@ class CRM_Betterplace_Profile {
     foreach (self::$_profiles as $profile_name => $profile) {
       $profile_data[$profile_name] = $profile->data;
     }
-    CRM_Core_BAO_Setting::setItem((object) $profile_data, 'de.systopia.betterplace', 'betterplace_profiles');
+    civi::settings()->set('betterplace_profiles', $profile_data);
   }
 }
