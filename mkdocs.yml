@@ -1,6 +1,7 @@
 site_name: betterplace.org Spendenformular Direkt
 repo_url: https://github.com/systopia/de.systopia.betterplace
-theme: material
+theme: 
+  name: material
 
 nav:
 - Home: index.md
