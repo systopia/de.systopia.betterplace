@@ -68,3 +68,6 @@ profile will be used for all newly created betterplace.org Direkt forms.
 
 * At the moment, only regular donations are supported, recurring donations are
   not yet implemented.
+
+## Documentation
+- https://docs.civicrm.org/betterplace/en/latest/ (automatic publishing)
