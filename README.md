@@ -1,4 +1,4 @@
-# betterplace.org Spendenformular Direkt
+# betterplace.org Spendenformular Direkt (abandoned but open for funding / contract work)
 
 Extension to connect to the betterplace.org Direkt donation page via the webhook
 api.
